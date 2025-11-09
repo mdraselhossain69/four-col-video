@@ -1,0 +1,23 @@
+.four-col-block-slider{
+    display: flex;
+    column-gap: 30px;
+}
+.four-col-block-item{
+    width: 25%;
+}
+.four-col-block-item-video{
+    position: relative;
+}
+.four-col-block-item video{
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+.four-col-block-item-icon{
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    cursor: pointer;
+}
