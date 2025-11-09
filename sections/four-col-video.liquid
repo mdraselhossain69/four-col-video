@@ -1,0 +1,134 @@
+ 
+{{ 'four-col-video.css' | asset_url | stylesheet_tag }}
+<style>
+  #shopify-section-{{ section.id }} {
+     
+  }
+</style>
+<div class="cust-four-col-video">
+   
+   
+    <div class="page-width {% unless section.settings.layout == "container" %}narrow{% endunless %}">
+        {%- if section.settings.title != blank -%}
+            <div class="heading-area text-center">
+                <h2 class="h1">{{ section.settings.title }}</h2>
+            </div>
+        {%- endif -%}
+ 
+        {%- if section.blocks.size > 0 -%}
+            <div class="four-col-block-slider">
+                {%- for block in section.blocks -%}
+                    <div class="four-col-block-item" {{ block.shopify_attributes }}>
+                        {% if block.settings.video %}
+                            <div class="four-col-block-item-video">
+                                {{ block.settings.video | video_tag: image_size: 'master', preload: 'metadata', autoplay: false, loop: false, controls: false, muted: false }}
+                                <div class="four-col-block-item-icon">
+                                    <svg class="pf-play-button" width="64" height="64" viewBox="0 0 48 48"><path d="M24.0003 47.8334C37.1631 47.8334 47.8337 37.1629 47.8337 24.0001C47.8337 10.8373 37.1631 0.166748 24.0003 0.166748C10.8375 0.166748 0.166992 10.8373 0.166992 24.0001C0.166992 37.1629 10.8375 47.8334 24.0003 47.8334Z" fill="rgb(193, 193, 193, .61)"></path><path d="M19.667 32.6668V15.3335L32.667 24.0002L19.667 32.6668Z" fill="#fff"></path></svg>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {%- endif -%}
+
+    </div>
+
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const videoBlocks = document.querySelectorAll(".four-col-block-item-video");
+
+    videoBlocks.forEach(block => {
+        const video = block.querySelector("video");
+        const icon = block.querySelector(".four-col-block-item-icon");
+
+        if (!video) return;
+
+        // clicking anywhere on the video block toggles play/pause
+        block.addEventListener("click", () => {
+        if (video.paused) {
+            video.play();
+            if (icon) icon.style.display = "none";
+        } else {
+            video.pause();
+            if (icon) icon.style.display = "flex";
+        }
+        });
+
+        // when video ends, show play icon again
+        video.addEventListener("ended", () => {
+        if (icon) icon.style.display = "flex";
+        });
+    });
+    });
+
+
+</script>
+
+{% schema %}
+{
+  "name": "Cus Four col video",
+  "tag": "section",
+  "class": "cust spaced-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Heading"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "label": "Container", "value": "container" },
+        { "label": "Narrow", "value": "narrow" }
+      ],
+      "default": "container"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Video",
+      "settings": [
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video"
+        } 
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cus Four col video",
+      "blocks": [
+        {
+          "type": "video"
+        },
+        {
+          "type": "video"
+        },
+        {
+          "type": "video"
+        },
+        {
+          "type": "video"
+        },
+        {
+          "type": "video"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
